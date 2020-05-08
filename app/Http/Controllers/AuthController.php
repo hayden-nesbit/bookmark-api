@@ -58,4 +58,13 @@ class AuthController extends Controller
         ]);
     }
 }
+public function logout(Request $request)
+{
+    $request->user()->token()->revoke();
+    $request->user()->token()->delete();
+    
+    $response = 'You have been successfully logged out!';
+    
+    return response($response, 200);}
+
 }

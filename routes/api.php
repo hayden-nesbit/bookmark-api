@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +20,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register', 'AuthController@register');
-Route::post('login', 'AuthController@login');
+Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login');
+Route::get('/users', 'UserController@index');
+Route::get('/tags', 'UserController@getTags');
 
-Route::get('logout', function(){
-    Auth::logout();
-});
+
+
+Route::post('/tagBook', 'UserController@tagBook');
 
 Route::middleware('auth:api')->group(function() {
-    
-    Route::get('user/{userId}/detail', 'UserController@show');
+    Route::get('/logout', 'AuthController@logout');
+    Route::get('/user/{userId}/detail', 'UserController@show');
 });

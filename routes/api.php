@@ -22,10 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
+
 Route::get('/users', 'UserController@index');
 Route::get('/tags', 'UserController@getTags');
-
-
 
 Route::post('/tagBook', 'UserController@tagBook');
 

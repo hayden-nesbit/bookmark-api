@@ -15,16 +15,17 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->text("unique");
-            $table->text("title");
-            $table->text("author");
-            $table->text("description");
-            $table->integer("pageCount");
-            $table->text("category");
-            $table->text("image");
-            $table->text("publisher");
-            $table->integer("pubDate");
-            
+            $table->text("unique")->nullable();
+            $table->unsignedBigInteger("userId")->nullable();
+            $table->unsignedBigInteger("tagId")->nullable();
+            $table->text("title")->nullable();;
+            $table->text("author")->nullable();;
+            $table->text("description")->nullable();;
+            $table->integer("pageCount")->default(0);
+            $table->text("category")->nullable();;
+            $table->text("image")->nullable();;
+            $table->text("publisher")->nullable();;
+            $table->text("pubDate")->nullable();
             $table->timestamps();
         });
     }

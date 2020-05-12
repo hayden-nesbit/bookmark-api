@@ -31,24 +31,47 @@ class UserController extends Controller
     }
 
     public function getTags() {
-        return new UserTagCollection(UserTag::all());
+        
+        $list1 = Book::where('tagId', 1)->get();
+        $list2 = Book::where('tagId', 2)->get();;
+        $list3 = Book::where('tagId', 3)->get();;
+
+        return response()->json([
+            'wantToRead' => $list1,
+            'currentlyReading' => $list2,
+            'read' => $list3
+        ], 200);
     }
 
     public function tagBook(Request $request) {
-        //1. get book unique id --> check if already have
-            //if not, create book
-            //if yes, use existing book to create record
-                //id of tag + bookid + userid = record
-                //return user_book record (response)
+
+       
+        $input = $request->all();
+        // $book = book where unique = $request uniqueBook
+        // add to user
+        
+        // query to see if uniqueBook exists in DB
+        $book = Book::where('unique', $request->input('uniqueBook'))->get();
+        // dd($book);
+        $userHasBook = false;
+        
+        if ($book->count() > 0) {
+            //if book exists check if user already has book
+            $user = User::find($request->input('userId'));
             
+            $hasBook = $user->books()->where('id', $book->first()->id())->get();
+            
+            if($hasBook->count() > 0) {
+                // if hasBook, return message 
+                $userHasBook = true;
+            } 
 
-            $input = $request->all();
-
-
-
-        if(!$request->input('uniqueBook')) {
+        } else {
+            //if book doesn't exist, create book 
             $newBook = [
                 "unique" => $request->input("uniqueBook"),
+                "userId" => $request->input("userId"),
+                "tagId" => $request->input("tagId"),
                 "title" => $request->input("bookTitle"),
                 "author" => $request->input("bookAuthor"),
                 "description" => $request->input("bookDescription"),
@@ -59,10 +82,16 @@ class UserController extends Controller
                 "pubDate" => $request->input("bookPubDate"),
             ];
             Book::create($newBook);
-        } else {
+            $userHasBook = false;
+        } 
+
+        if($userHasBook){
             return response()->json(['message' => 'You already have this book!'], 404);
-            // return response()->json(//record)
+        } else {
+            return response()->json(['message' => 'Book Added.'], 200);
         }
-    }       
+
+    }
+     
 }
 

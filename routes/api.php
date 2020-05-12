@@ -24,8 +24,9 @@ Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
 
 Route::get('/users', 'UserController@index');
-Route::get('/tags', 'UserController@getTags');
 
+Route::get('/tags/{id}', 'UserController@getTags');
+Route::get('/tags', 'UserController@storeTags');
 Route::post('/tagBook', 'UserController@tagBook');
 
 Route::middleware('auth:api')->group(function() {

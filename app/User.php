@@ -42,11 +42,7 @@ class User extends Authenticatable
 
     public function books() {
 
-        return $this->belongsTo(Book::class);
+        return $this->hasMany(Book::class);
     }
 
-     public function UserTags(){
-        
-        return $this->belongsTo(UserTag::class);
-    }
 }

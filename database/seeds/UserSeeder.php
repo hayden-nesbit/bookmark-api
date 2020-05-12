@@ -16,20 +16,5 @@ class UserSeeder extends Seeder
     {
         factory(App\User::class, 50)->create();
 
-        DB::table('user_tags')
-            ->insert(
-                ['title' => "want-to-read",
-                 'user_id' => 1
-                ]);
-        DB::table('user_tags')
-            ->insert(
-                ['title' => "currently-reading",
-                 'user_id' => 1
-                ]);
-        DB::table('user_tags')
-            ->insert(
-                ['title' => "read",
-                 'user_id' => 1
-                ]);
     }
 }

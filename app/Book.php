@@ -8,8 +8,8 @@ class Book extends Model
 {
     protected $fillable = [
         "unique", 
-        "tagId",
-        "userId",
+        "tag_id",
+        "user_id",
         "title",
         "author",
         "description",
@@ -27,6 +27,6 @@ class Book extends Model
 
      public function UserTags(){
         
-        return $this->belongsTo(UserTag::class);
+        return $this->hasOne(UserTag::class);
     }
 }

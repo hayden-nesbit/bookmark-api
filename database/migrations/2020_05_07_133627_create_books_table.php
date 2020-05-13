@@ -16,8 +16,6 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->text("unique")->nullable();
-            $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("tag_id");
             $table->text("title")->nullable();;
             $table->text("author")->nullable();;
             $table->text("description")->nullable();;
@@ -28,8 +26,6 @@ class CreateBooksTable extends Migration
             $table->text("pubDate")->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('tag_id')->references('id')->on('user_tags');
         });
     }
 

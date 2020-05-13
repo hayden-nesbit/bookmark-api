@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Book;
+use App\UserTag;
 
 class AuthController extends Controller
 {
@@ -24,7 +26,6 @@ class AuthController extends Controller
             'password' => 'required|min:6'
         ]);
 
-
         $user = User::create([
             'name' => $request->name, 
             'email' => $request->email, 
@@ -33,7 +34,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->email.'-'.now());
 
-        return response()->json([
+        return response()->json([ 
             'token' => $token->accessToken,
             'user' => $user
         ]);
@@ -47,10 +48,15 @@ class AuthController extends Controller
         'password' => 'required'
     ]);
 
+    // $allData = Book::with(['users', 'UserTags'])->get();
+    // dd($allData);
+
     if( Auth::attempt(['email'=>$request->email, 'password'=>$request->password]) ) {
         $user = Auth::user();
         
         $token = $user->createToken($user->email.'-'.now());
+
+        $user->tags = UserTag::with(["books", "tags"])->where("user_id", $user->id)->get();
 
         return response()->json([
             'token' => $token->accessToken,

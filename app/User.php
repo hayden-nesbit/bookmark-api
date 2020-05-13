@@ -42,7 +42,14 @@ class User extends Authenticatable
 
     public function books() {
 
-        return $this->hasMany(Book::class);
+        return $this->hasMany("App\Book");
     }
+
+    public function UserTags() {
+
+        return $this->belongsToMany("App\Tag");
+    }
+
+
 
 }

@@ -8,8 +8,6 @@ class Book extends Model
 {
     protected $fillable = [
         "unique", 
-        "tag_id",
-        "user_id",
         "title",
         "author",
         "description",
@@ -20,13 +18,8 @@ class Book extends Model
         "pubDate"
     ];
 
-    public function users() {
-
-        return $this->belongsTo(User::class);
-    }
-
      public function UserTags(){
         
-        return $this->hasOne(UserTag::class);
+        return $this->belongsToMany("App\Tag", "user_tags");
     }
 }

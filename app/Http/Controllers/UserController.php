@@ -36,9 +36,9 @@ class UserController extends Controller
 
     public function getTags($id) {
         
-        $list1 = Book::where(['tag_id' => 1 , 'user_id' => $id])->get();
-        $list2 = Book::where(['tag_id' => 2 , 'user_id' => $id])->get();;
-        $list3 = Book::where(['tag_id' => 3 , 'user_id' => $id])->get();;
+        $list1 = UserTag::where(['tag_id' => 1 , 'user_id' => $id])->get();
+        $list2 = UserTag::where(['tag_id' => 2 , 'user_id' => $id])->get();;
+        $list3 = UserTag::where(['tag_id' => 3 , 'user_id' => $id])->get();;
 
         return response()->json([
             'wantToRead' => $list1,
@@ -50,32 +50,30 @@ class UserController extends Controller
     public function tagBook(Request $request) {
 
        
-        $input = $request->all();
-        // $book = book where unique = $request uniqueBook
-        // add to user
+        // $input = $request->all();
+        // // $book = book where unique = $request uniqueBook
+        // // add to user
         
-        // query to see if uniqueBook exists in DB
-        $book = Book::where('unique', $request->input('uniqueBook'))->get();
-        // dd($book);
-        $userHasBook = false;
+        // // query to see if uniqueBook exists in DB
+        // $book = Book::where('unique', $request->input('uniqueBook'))->get();
+        // // dd($book);
+        // $userHasBook = false;
         
-        if ($book->count() > 0) {
-            //if book exists check if user already has book
-            $user = User::find($request->input('user_id'));
+        // if ($book->count() > 0) {
+        //     //if book exists check if user already has book
+        //     $user = User::find($request->input('user_id'));
             
-            $hasBook = $user->books()->where('id', $book->first()->id())->get();
+        //     $hasBook = $user->books()->where('id', $book->first()->id())->get();
             
-            if($hasBook->count() > 0) {
-                // if hasBook, return message 
-                $userHasBook = true;
-            } 
+        //     if($hasBook->count() > 0) {
+        //         // if hasBook, return message 
+        //         $userHasBook = true;
+        //     } 
 
-        } else {
-            //if book doesn't exist, create book 
+        // } else {
+        //     //if book doesn't exist, create book 
             $newBook = [
                 "unique" => $request->input("uniqueBook"),
-                "user_id" => $request->input("user_id"),
-                "tag_id" => $request->input("tag_id"),
                 "title" => $request->input("bookTitle"),
                 "author" => $request->input("bookAuthor"),
                 "description" => $request->input("bookDescription"),
@@ -85,16 +83,22 @@ class UserController extends Controller
                 "publisher" => $request->input("bookPub"),
                 "pubDate" => $request->input("bookPubDate"),
             ];
-            Book::create($newBook);
+            $newBook = Book::create($newBook);
+            $newUserTag = [
+                "user_id" => $request->input("user_id"),
+                "tag_id" => $request->input("tag_id"),
+                "book_id" => $newBook->id,
+            ];
+            UserTag::create($newUserTag);
             $userHasBook = false;
         } 
 
-        if($userHasBook){
-            return response()->json(['message' => 'You already have this book!'], 404);
-        } else {
-            return response()->json(['message' => 'Book Added.'], 200);
-        }
+    //     if($userHasBook){
+    //         return response()->json(['message' => 'You already have this book!'], 404);
+    //     } else {
+    //         return response()->json(['message' => 'Book Added.'], 200);
+    //     }
 
-    }
+    // }
      
 }

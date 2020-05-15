@@ -11,7 +11,7 @@ use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserTag as UserTagResource;
 use App\Http\Resources\UserTagCollection;
-
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -58,7 +58,7 @@ class UserController extends Controller
         //     } 
 
         // } else {
-        //     //if book doesn't exist, create book 
+            //if book doesn't exist, create book 
             $newBook = [
                 "unique" => $request->input("uniqueBook"),
                 "title" => $request->input("bookTitle"),
@@ -78,14 +78,23 @@ class UserController extends Controller
             ];
             UserTag::create($newUserTag);
             $userHasBook = false;
-        } 
 
-    //     if($userHasBook){
-    //         return response()->json(['message' => 'You already have this book!'], 404);
-    //     } else {
-    //         return response()->json(['message' => 'Book Added.'], 200);
-    //     }
+            $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
 
-    // }
+        return response()->json([
+            "tags" => $tags
+        ]);
+        // }
+        // if($userHasBook){
+        //     return response()->json(['message' => 'You already have this book!'], 404);
+        // } else {
+        //     return response()->json(['message' => 'Book Added.'], 200);
+        // }
+    }
+
+    }
+
+
+
+
      
-}

@@ -34,19 +34,6 @@ class UserController extends Controller
         return new UserTagCollection(UserTag::all());
     }
 
-    public function getTags($id) {
-        
-        $list1 = UserTag::where(['tag_id' => 1 , 'user_id' => $id])->get();
-        $list2 = UserTag::where(['tag_id' => 2 , 'user_id' => $id])->get();;
-        $list3 = UserTag::where(['tag_id' => 3 , 'user_id' => $id])->get();;
-
-        return response()->json([
-            'wantToRead' => $list1,
-            'currentlyReading' => $list2,
-            'read' => $list3
-        ], 200);
-    }
-
     public function tagBook(Request $request) {
 
        

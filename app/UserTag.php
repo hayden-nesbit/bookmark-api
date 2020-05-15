@@ -12,14 +12,17 @@ class UserTag extends Model
         "book_id",
     ];
 
+    // protected $with = ["books"];
+
+
     public function books() {
 
-        return $this->belongsToMany("App\Book", "user_tags", "book_id");
+        return $this->belongsToMany("App\Book", "user_tags", "book_id", "user_id");
     }
 
     public function tags() {
 
-        return $this->belongsToMany("App\Tag", "user_tags", "tag_id");
+        return $this->belongsToMany("App\Tag", "user_tags", "user_id", "tag_id");
     }
 
     public function users() {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Book;
 use App\UserTag;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -56,7 +57,16 @@ class AuthController extends Controller
         
         $token = $user->createToken($user->email.'-'.now());
 
-        $user->tags = UserTag::with(["books", "tags"])->where("user_id", $user->id)->get();
+        //change user->tag response from user tag w/ array of books to be JUST array of books
+        $user->tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $user->id)->get();
+        // $user->tags = [
+        //     "wantToRead" => UserTag::with("tags")->where("user_id", $user->id)->where("tag_id", 1)->get(),
+        //     "currentlyReading" => UserTag::with("tags")->where("user_id", $user->id)->where("tag_id", 2)->get(),
+        //     "read" =>UserTag::with("tags")->where("user_id", $user->id)->where("tag_id", 3)->get()
+        // ];
+
+        // $user->tags = [];
+        // $user->books = Book::with("tags")->where("user_id", $user->id)->get();
 
         return response()->json([
             'token' => $token->accessToken,

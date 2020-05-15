@@ -20,6 +20,6 @@ class Book extends Model
 
      public function UserTags(){
         
-        return $this->belongsToMany("App\Tag", "user_tags");
+        return $this->belongsToMany("App\Tag", "user_tags", "book_id", "id");
     }
 }

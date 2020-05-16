@@ -92,9 +92,32 @@ class UserController extends Controller
         // }
     }
 
+    public function deleteBook(Request $request) {
+        $tag = UserTag::where("book_id", $request->input("book_id"));
+        $book = Book::where("id", $request->input("book_id"));
+        $tag->delete();
+        $book->delete();
+
+        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
+
+        return response()->json([
+            "tags" => $tags
+        ]);
+        
+    }
+
+    public function updateBook(Request $request) {
+        
+        $tag = UserTag::where("tag_id", $request->input("prev_tag"))->where("book_id", $request->input("book_id"))->update(["tag_id" => $request->input("tag_id")]);
+        
+        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
+
+        return response()->json([
+            "tags" => $tags
+        ]);
     }
 
 
-
+}
 
      

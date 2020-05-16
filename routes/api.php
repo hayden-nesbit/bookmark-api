@@ -28,6 +28,8 @@ Route::get('/users', 'UserController@index');
 Route::get('/tags/{id}', 'UserController@getTags');
 Route::get('/tags', 'UserController@storeTags');
 Route::post('/tagBook', 'UserController@tagBook');
+Route::post('/deleteBook', 'UserController@deleteBook');
+Route::post('/updateBook', 'UserController@updateBook');
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/logout', 'AuthController@logout');

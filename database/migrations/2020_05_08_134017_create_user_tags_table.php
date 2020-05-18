@@ -18,6 +18,8 @@ class CreateUserTagsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('tag_id');
+            $table->text("start_date")->nullable();
+            $table->text("end_date")->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

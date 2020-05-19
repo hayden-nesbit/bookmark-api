@@ -37,28 +37,28 @@ class UserController extends Controller
     public function tagBook(Request $request) {
 
        
-        // $input = $request->all();
-        // // $book = book where unique = $request uniqueBook
-        // // add to user
+        $input = $request->all();
+        // $book = book where unique = $request uniqueBook
+        // add to user
         
-        // // query to see if uniqueBook exists in DB
-        // $book = Book::where('unique', $request->input('uniqueBook'))->get();
-        // // dd($book);
-        // $userHasBook = false;
+        // query to see if uniqueBook exists in DB
+        $book = Book::where('unique', $request->input('uniqueBook'))->get();
+        // dd($book);
+        $userHasBook = false;
         
-        // if ($book->count() > 0) {
-        //     //if book exists check if user already has book
-        //     $user = User::find($request->input('user_id'));
+        if ($book->count() > 0) {
+            //if book exists check if user already has book
+            $user = User::find($request->input('user_id'));
             
-        //     $hasBook = $user->books()->where('id', $book->first()->id())->get();
+            $hasBook = $user->books()->where('id', $book->first())->get();
             
-        //     if($hasBook->count() > 0) {
-        //         // if hasBook, return message 
-        //         $userHasBook = true;
-        //     } 
+            if($hasBook->count() > 0) {
+                // if hasBook, return message 
+                $userHasBook = true;
+            } 
 
-        // } else {
-            //if book doesn't exist, create book 
+        } else {
+            // if book doesn't exist, create book 
             $newBook = [
                 "unique" => $request->input("uniqueBook"),
                 "title" => $request->input("bookTitle"),
@@ -84,12 +84,12 @@ class UserController extends Controller
         return response()->json([
             "tags" => $tags
         ]);
-        // }
-        // if($userHasBook){
-        //     return response()->json(['message' => 'You already have this book!'], 404);
-        // } else {
-        //     return response()->json(['message' => 'Book Added.'], 200);
-        // }
+        }
+        if($userHasBook){
+            return response()->json(['message' => 'You already have this book!'], 404);
+        } else {
+            return response()->json(['message' => 'Book Added.'], 200);
+        }
     }
 
     public function deleteBook(Request $request) {

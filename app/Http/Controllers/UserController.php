@@ -126,6 +126,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function updatePage(Request $request) {
+        
+        $tag = Book::where("id", $request->input("id"))->update(["pageCount" => $request->input("pageCount")]);
+        
+        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
+
+        return response()->json([
+            "tags" => $tags
+        ]);
+    }
+
 
 }
 

@@ -12,7 +12,7 @@ class UserTag extends Model
         "book_id",
     ];
 
-    // protected $with = ["books"];
+    protected $with = ["books"];
 
 
     public function books() {

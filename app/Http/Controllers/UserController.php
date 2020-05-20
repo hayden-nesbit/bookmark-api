@@ -42,7 +42,7 @@ class UserController extends Controller
         // add to user
         
         // query to see if uniqueBook exists in DB
-        $book = Book::where('unique', $request->input('uniqueBook'))->get();
+        $book = Book::where('unique', $request->input('uniqueBook'))->get(["id"]);
         // dd($book);
         $userHasBook = false;
         
@@ -50,7 +50,7 @@ class UserController extends Controller
             //if book exists check if user already has book
             $user = User::find($request->input('user_id'));
             
-            $hasBook = $user->books()->where('id', $book->first())->get();
+            $hasBook = $user->books()->where('books.id', $book->first()->id)->get();
             
             if($hasBook->count() > 0) {
                 // if hasBook, return message 
@@ -81,14 +81,12 @@ class UserController extends Controller
 
             $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
 
-        return response()->json([
-            "tags" => $tags
-        ]);
         }
         if($userHasBook){
             return response()->json(['message' => 'You already have this book!'], 404);
         } else {
-            return response()->json(['message' => 'Book Added.'], 200);
+            return response()->json(['message' => 'Book Added.', "tags" => $tags], 200);
+
         }
     }
 

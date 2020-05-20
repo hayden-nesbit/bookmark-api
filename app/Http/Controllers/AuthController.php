@@ -35,6 +35,8 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->email.'-'.now());
 
+        $user->tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $user->id)->get();
+
         return response()->json([ 
             'token' => $token->accessToken,
             'user' => $user

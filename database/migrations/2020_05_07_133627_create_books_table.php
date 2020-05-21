@@ -20,7 +20,7 @@ class CreateBooksTable extends Migration
             $table->text("author")->nullable();;
             $table->text("description")->nullable();;
             $table->integer("pageCount")->default(0);
-            $table->text("category")->nullable();;
+            $table->integer("pagesLeft")->default(0);
             $table->text("image")->nullable();;
             $table->text("publisher")->nullable();;
             $table->text("pubDate")->nullable();

@@ -44,7 +44,7 @@ class AuthController extends Controller
     }
     
     public function login(Request $request)
-{   
+    {   
 
     $request->validate([
         'email' => 'required|email|exists:users,email', 
@@ -76,6 +76,7 @@ class AuthController extends Controller
         ]);
     }
 }
+
 public function logout(Request $request)
 {
     $request->user()->token()->revoke();
@@ -83,6 +84,7 @@ public function logout(Request $request)
     
     $response = 'You have been successfully logged out!';
     
-    return response($response, 200);}
+    return response($response, 200);
+}
 
 }

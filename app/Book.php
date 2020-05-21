@@ -12,6 +12,7 @@ class Book extends Model
         "author",
         "description",
         "pageCount",
+        "pagesLeft",
         "category",
         "image",
         "publisher",

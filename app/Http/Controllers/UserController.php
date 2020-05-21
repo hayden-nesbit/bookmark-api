@@ -65,7 +65,7 @@ class UserController extends Controller
                 "author" => $request->input("bookAuthor"),
                 "description" => $request->input("bookDescription"),
                 "pageCount" => $request->input("bookPage"),
-                "category" => $request->input("bookCat"),
+                "pagesLeft" => $request->input("bookPage"),
                 "image" => $request->input("bookImage"),
                 "publisher" => $request->input("bookPub"),
                 "pubDate" => $request->input("bookPubDate"),
@@ -128,7 +128,7 @@ class UserController extends Controller
 
     public function updatePage(Request $request) {
         
-        $tag = Book::where("id", $request->input("id"))->update(["pageCount" => $request->input("pageCount")]);
+        $tag = Book::where("id", $request->input("id"))->update(["pagesLeft" => $request->input("pagesLeft")]);
         
         $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
 

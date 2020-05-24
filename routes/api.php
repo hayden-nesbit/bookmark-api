@@ -32,6 +32,7 @@ Route::post('/deleteBook', 'UserController@deleteBook');
 Route::post('/updateBook', 'UserController@updateBook');
 Route::post('/setGoal', 'UserController@setGoal');
 Route::post('/updatePage', 'UserController@updatePage');
+Route::post('/clearGoal', 'UserController@clearGoal');
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/logout', 'AuthController@logout');

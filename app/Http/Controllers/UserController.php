@@ -137,6 +137,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function clearGoal(Request $request) {
+        
+        $tag = UserTag::where("book_id", $request->input("book_id"))->update(["end_date" => null]);
+        
+        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
+
+        return response()->json([
+            "tags" => $tags
+        ]);
+    }
+
 
 }
 

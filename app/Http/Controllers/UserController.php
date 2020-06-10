@@ -126,6 +126,22 @@ class UserController extends Controller
         ]);
     }
 
+    public function clearGoal(Request $request) {
+
+        // $user = User::find($request->input('user_id'));
+        
+        $tag = UserTag::where("book_id", $request->input("book_id"))->update(["end_date" => null]);
+        $pages = Book::where("id", $request->input("book_id"))->update(["pagesLeft" => $request->input("pagesLeft")]);
+        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
+        // $goals = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where([["user_id", $request->input("user_id")], ["end_date", "!=", null]])->get();
+
+
+        return response()->json([
+            "tags" => $tags
+            // "goals" => $goals
+        ]);
+    }
+    
     public function updatePage(Request $request) {
         
         $tag = Book::where("id", $request->input("id"))->update(["pagesLeft" => $request->input("pagesLeft")]);
@@ -136,18 +152,6 @@ class UserController extends Controller
             "tags" => $tags
         ]);
     }
-
-    public function clearGoal(Request $request) {
-        
-        $tag = UserTag::where("book_id", $request->input("book_id"))->update(["end_date" => null]);
-        
-        $tags = DB::table("user_tags")->join("books", "user_tags.book_id", "=", "books.id")->where("user_id", $request->input("user_id"))->get();
-
-        return response()->json([
-            "tags" => $tags
-        ]);
-    }
-
 
 }
 
